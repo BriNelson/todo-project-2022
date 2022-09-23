@@ -1,0 +1,25 @@
+{
+  "name": "todo-project-2022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "todoData.js",
+  "type": "module",
+  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BriNelson/todo-project-2022.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BriNelson/todo-project-2022/issues"
+  },
+  "homepage": "https://github.com/BriNelson/todo-project-2022#readme",
+  "dependencies": {
+    "uuid": "^9.0.0"
+  }
+}
