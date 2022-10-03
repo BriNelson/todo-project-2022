@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>Todo App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   </head>
   <body>
@@ -12,9 +12,28 @@
       <h1 class="title">
         Todo App
       </h1>
-      
+      <div class="field has-addons">
+        <div class="control">
+          <input class="input" type="text" placeholder="Add a todo" id="userTask">
+        </div>
+        <div class="control">
+          <a class="button is-info" id="addTodoButton">
+            New Todo
+          </a>
+        </div>
+      </div>
+
+      <ul id="toDoList"></ul> 
+
+      <button class="button is-danger is-outlined">
+        <span>Delete</span>
+        <span class="icon is-small">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
     </div>
-    <button class="button is-primary">Search</button><input class="input is-medium" type="text" placeholder="Medium input">
+    
   </section>
+  <script type="text/javascript" src="todoData.js"></script>
   </body>
 </html>
