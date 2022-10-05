@@ -20,7 +20,7 @@ let todoData = [
   {
     taskName: "test",
     completed: false,
-    id: 223,
+    id: 1,
     category: "exercise",
     dueDate: "dateObj",
   },
@@ -28,14 +28,14 @@ let todoData = [
   {
     taskName: "homework",
     completed: false,
-    id: 223,
+    id: 2,
     category: "exercise",
     dueDate: "dateObj",
   },
   {
     taskName: "work out",
     completed: false,
-    id: 223,
+    id: 3,
     category: "exercise",
     dueDate: "dateObj",
   },
@@ -45,7 +45,17 @@ console.log(todoData);
 
 //Add todo button
 const addTodoButton = document.querySelector('#addTodoButton')
+let fullTodoList = document.querySelector('#toDoList');
+// Delete listener
+fullTodoList.addEventListener('click', (event) => {
+  if (event.target.matches(".deleteBtn")) {
+    
+    todoData.splice(event.target.id, 1);
+    printTodoList(todoData);
+  }
+})
 
+// Add todo listener
 addTodoButton.addEventListener("click", () => {
     let newTask = {
         taskName: document.querySelector("#userTask").value,
@@ -65,7 +75,7 @@ addTodoButton.addEventListener("click", () => {
 //print todo array function
 const printTodoList = (arr) => {
     document.querySelector("#toDoList").innerHTML = "";
-  arr.forEach((element) => {
+  arr.forEach((element, index) => {
     let todoList = document.querySelector("#toDoList");
 
     const listItem = document.createElement("li");
@@ -99,7 +109,8 @@ const printTodoList = (arr) => {
     rightSideDiv.appendChild(editButton);
     // Delete button added
     const deleteButton = document.createElement("button")
-    deleteButton.classList.add("button", "is-danger", "level-item")
+    deleteButton.classList.add("button", "is-danger", "level-item", "deleteBtn")
+    deleteButton.setAttribute('id', index)
     deleteButton.appendChild(document.createTextNode('delete'))
     rightSideDiv.appendChild(deleteButton);
     
