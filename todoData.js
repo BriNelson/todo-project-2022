@@ -19,7 +19,7 @@
 let todoData = [
   {
     taskName: "test",
-    completed: false,
+    completed: true,
     id: 1,
     category: "exercise",
     dueDate: "dateObj",
@@ -34,7 +34,7 @@ let todoData = [
   },
   {
     taskName: "work out",
-    completed: false,
+    completed: true,
     id: 3,
     category: "exercise",
     dueDate: "dateObj",
@@ -71,6 +71,19 @@ addTodoButton.addEventListener("click", () => {
     printTodoList(todoData)
  })
 
+ // delete all
+const deleteAllButton = document.querySelector("#deleteAllButton");
+deleteAllButton.addEventListener("click", () => {
+  todoData.forEach((element, index, array) => {
+    if (element.completed === true) {
+      
+      array.splice(index, 1);
+      
+      printTodoList(todoData)
+    };
+    
+  });
+})
 
 //print todo array function
 const printTodoList = (arr) => {
@@ -90,7 +103,17 @@ const printTodoList = (arr) => {
     leftSideDiv.classList.add("level-left")
     itemDiv.appendChild(leftSideDiv);
 
-    
+    // completed checkmark
+    const checkMarkLabel = document.createElement("label")
+    checkMarkLabel.classList.add("checkbox","level-item")
+    leftSideDiv.appendChild(checkMarkLabel);
+
+    const checkMarkInput = document.createElement("input")
+    checkMarkInput.type = "checkbox"
+    checkMarkLabel.appendChild(checkMarkInput);
+
+
+
     //todo item name
     const itemName = document.createElement("h1");
     itemName.appendChild(document.createTextNode(`${element.taskName}`));
@@ -101,6 +124,7 @@ const printTodoList = (arr) => {
     const rightSideDiv = document.createElement("div");
     rightSideDiv.classList.add("level-right")
     itemDiv.appendChild(rightSideDiv);
+
 
     // Edit button added
     const editButton = document.createElement("button")
