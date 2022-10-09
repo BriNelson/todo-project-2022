@@ -60,7 +60,7 @@ addTodoButton.addEventListener("click", () => {
     let newTask = {
         taskName: document.querySelector("#userTask").value,
         category: 'test',
-        id: 'test',
+        id: todoData.length + 1,
         completed: false,
         dueDate: 'test date'
     }
@@ -69,6 +69,40 @@ addTodoButton.addEventListener("click", () => {
 
     console.log(newTask);
     printTodoList(todoData)
+ })
+
+document.addEventListener("click", function (event) {
+   
+
+  // **** might beable to do this with operands
+  if (event.target.checked === true) {
+    // console.log(event.target.id)
+    todoData.forEach(element => {
+      if (parseInt(event.target.id) === element.id) {
+        element.completed = true;
+        console.log(element)
+        
+      }
+      
+    });
+    
+  }
+
+  if (event.target.checked === false) {
+    // console.log(event.target.id)
+    todoData.forEach(element => {
+      if (parseInt(event.target.id) === element.id) {
+        element.completed = false;
+        console.log(element)
+        
+      }
+      
+    });
+    
+  }
+
+
+  
  })
 
  // delete all
@@ -110,6 +144,7 @@ const printTodoList = (arr) => {
 
     const checkMarkInput = document.createElement("input")
     checkMarkInput.type = "checkbox"
+    checkMarkInput.setAttribute("id", `${element.id}`)
     checkMarkLabel.appendChild(checkMarkInput);
 
 
