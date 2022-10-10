@@ -19,7 +19,7 @@
 let todoData = [
   {
     taskName: "test",
-    completed: true,
+    completed: false,
     id: 1,
     category: "exercise",
     dueDate: "dateObj",
@@ -34,7 +34,7 @@ let todoData = [
   },
   {
     taskName: "work out",
-    completed: true,
+    completed: false,
     id: 3,
     category: "exercise",
     dueDate: "dateObj",
@@ -54,6 +54,15 @@ fullTodoList.addEventListener('click', (event) => {
     printTodoList(todoData);
   }
 })
+// edit listener
+// fullTodoList.addEventListener('click', (event) => {
+//   if (event.target.matches(".editBtn")) {
+    
+//    console.log( 'works')
+//   }
+// })
+
+
 
 // Add todo listener
 addTodoButton.addEventListener("click", () => {
@@ -71,6 +80,7 @@ addTodoButton.addEventListener("click", () => {
     printTodoList(todoData)
  })
 
+ //handles complete (uglyish)
 document.addEventListener("click", function (event) {
    
 
@@ -161,11 +171,25 @@ const printTodoList = (arr) => {
     itemDiv.appendChild(rightSideDiv);
 
 
+    //edit field
+    const editField = document.createElement("input")
+    editField.classList.add("input", "is-info", "level-item")
+    editField.setAttribute("style", "visibility: hidden;")
+    rightSideDiv.appendChild(editField);
+
     // Edit button added
     const editButton = document.createElement("button")
-    editButton.classList.add("button", "is-info", "level-item")
+    editButton.classList.add("button", "is-info", "level-item", "editBtn")
     editButton.appendChild(document.createTextNode('edit'))
     rightSideDiv.appendChild(editButton);
+    
+    fullTodoList.addEventListener('click', (event) => {
+      if (event.target.matches(".editBtn")) {
+        editField.setAttribute("style", "visibility: visible;")
+       console.log( element.id)
+      }
+    })
+
     // Delete button added
     const deleteButton = document.createElement("button")
     deleteButton.classList.add("button", "is-danger", "level-item", "deleteBtn")
