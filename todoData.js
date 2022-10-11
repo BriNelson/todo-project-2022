@@ -50,6 +50,7 @@ let fullTodoList = document.querySelector('#toDoList');
 fullTodoList.addEventListener('click', (event) => {
   if (event.target.matches(".deleteBtn")) {
     
+    console.log(event.target.id)
     todoData.splice(event.target.id, 1);
     printTodoList(todoData);
   }
@@ -78,7 +79,8 @@ addTodoButton.addEventListener("click", () => {
 
     console.log(newTask);
     printTodoList(todoData)
- })
+})
+ 
 
  //handles complete (uglyish)
 document.addEventListener("click", function (event) {
@@ -157,8 +159,6 @@ const printTodoList = (arr) => {
     checkMarkInput.setAttribute("id", `${element.id}`)
     checkMarkLabel.appendChild(checkMarkInput);
 
-
-
     //todo item name
     const itemName = document.createElement("h1");
     itemName.appendChild(document.createTextNode(`${element.taskName}`));
@@ -174,20 +174,30 @@ const printTodoList = (arr) => {
     //edit field
     const editField = document.createElement("input")
     editField.classList.add("input", "is-info", "level-item")
-    editField.setAttribute("style", "visibility: hidden;")
-    rightSideDiv.appendChild(editField);
+    
+    
+// Save button added
+const saveButton = document.createElement("button")
+saveButton.classList.add("button", "is-success", "level-item", "editBtn")
+    saveButton.appendChild(document.createTextNode('save')) 
+    
+    saveButton.addEventListener("click", (event) => {
+      saveButton.replaceWith(editButton)
+      editField.replaceWith(itemName)
+    })
 
     // Edit button added
     const editButton = document.createElement("button")
     editButton.classList.add("button", "is-info", "level-item", "editBtn")
+    editButton.setAttribute('id', index)
     editButton.appendChild(document.createTextNode('edit'))
     rightSideDiv.appendChild(editButton);
     
-    fullTodoList.addEventListener('click', (event) => {
-      if (event.target.matches(".editBtn")) {
-        editField.setAttribute("style", "visibility: visible;")
-       console.log( element.id)
-      }
+    editButton.addEventListener('click', (event) => {
+     editButton.replaceWith(saveButton)
+        //itemName.replaceWith(editField)
+        itemName.replaceWith(editField)
+      
     })
 
     // Delete button added
