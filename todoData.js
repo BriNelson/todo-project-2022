@@ -182,8 +182,14 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
     saveButton.appendChild(document.createTextNode('save')) 
     
     saveButton.addEventListener("click", (event) => {
+      console.log(element.taskName)
+      console.log(editField.value)
+
+      element.taskName = editField.value
+
       saveButton.replaceWith(editButton)
       editField.replaceWith(itemName)
+      printTodoList(todoData)
     })
 
     // Edit button added
