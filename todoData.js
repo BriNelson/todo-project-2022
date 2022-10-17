@@ -41,7 +41,9 @@ let todoData = [
   },
 ];
 
-console.log(todoData);
+
+
+// console.log(todoData);
 
 //Add todo button
 const addTodoButton = document.querySelector('#addTodoButton')
@@ -92,11 +94,12 @@ document.addEventListener("click", function (event) {
     todoData.forEach(element => {
       if (parseInt(event.target.id) === element.id) {
         element.completed = true;
-        console.log(element)
+        // console.log(element)
         
       }
       
     });
+    countCompleted(todoData)
     
   }
 
@@ -105,17 +108,30 @@ document.addEventListener("click", function (event) {
     todoData.forEach(element => {
       if (parseInt(event.target.id) === element.id) {
         element.completed = false;
-        console.log(element)
+        // console.log(element)
         
       }
       
     });
-    
+    countCompleted(todoData)
   }
 
-
   
- })
+})
+ 
+ // count function
+
+const countCompleted = (arr) => {
+  document.querySelector("#completedTaskCount").innerHTML = "";
+  let counter = document.querySelector("#completedTaskCount")
+
+ let count = arr.filter(item => item.completed === true).length
+
+  counter.appendChild(document.createTextNode(count))
+
+    
+  
+  }
 
  // delete all
 const deleteAllButton = document.querySelector("#deleteAllButton");
@@ -133,6 +149,7 @@ deleteAllButton.addEventListener("click", () => {
 
 //print todo array function
 const printTodoList = (arr) => {
+  document.querySelector("#completedTaskCount").innerHTML = "";
     document.querySelector("#toDoList").innerHTML = "";
   arr.forEach((element, index) => {
     let todoList = document.querySelector("#toDoList");
@@ -141,7 +158,7 @@ const printTodoList = (arr) => {
     todoList.appendChild(listItem);
     // Adds div tag with box class to give shape
     const itemDiv = document.createElement("div");
-    itemDiv.classList.add("box", "level");
+    itemDiv.classList.add("box", "level", "mt-3");
     listItem.appendChild(itemDiv);
 
     //div container for left side of list
@@ -156,6 +173,9 @@ const printTodoList = (arr) => {
 
     const checkMarkInput = document.createElement("input")
     checkMarkInput.type = "checkbox"
+    if (element.completed === true) {
+      checkMarkInput.setAttribute("checked", "")
+    }
     checkMarkInput.setAttribute("id", `${element.id}`)
     checkMarkLabel.appendChild(checkMarkInput);
 
@@ -182,8 +202,8 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
     saveButton.appendChild(document.createTextNode('save')) 
     
     saveButton.addEventListener("click", (event) => {
-      console.log(element.taskName)
-      console.log(editField.value)
+      // console.log(element.taskName)
+      // console.log(editField.value)
 
       element.taskName = editField.value
 
@@ -221,6 +241,7 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
 
     console.log(element.taskName);
   });
+  countCompleted(arr)
 };
 printTodoList(todoData);
 
