@@ -4,17 +4,20 @@
 //category
 //due Date
 
-//* User can view todos
 
-//* User can add todos
+// You will need to design and develop the additional features to your todo app.
 
-//* User can edit todos
+// * Users need to be able to view todos by category
 
-//* User can delete todos
+// * Users need to be able to add categories
 
-//* App shows the user number of todos left to complete
+// * Users need to be able to select a category when adding a new todo.
 
-//* App can delete (aka clear) all done todos at once.
+// * Users need to be able to delete categories
+
+// * Users need to be able to edit categories (be sure to update all existing todos with the edited category)
+
+// * The experience around categories must be a good user experience
 
 let todoData = [
   {
@@ -41,7 +44,16 @@ let todoData = [
   },
 ];
 
-
+let categoryList = [
+  {
+    id: 1,
+    categoryName: "school",
+  },
+  {
+    id: 2,
+    categoryName: "work",
+  },
+];
 
 // console.log(todoData);
 
@@ -71,7 +83,7 @@ fullTodoList.addEventListener('click', (event) => {
 addTodoButton.addEventListener("click", () => {
     let newTask = {
         taskName: document.querySelector("#userTask").value,
-        category: 'test',
+        category: document.querySelector("#userCategory").value,
         id: todoData.length + 1,
         completed: false,
         dueDate: 'test date'
@@ -234,16 +246,45 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
     rightSideDiv.appendChild(deleteButton);
     
     
-    
-    
-
-    
-
     console.log(element.taskName);
   });
   countCompleted(arr)
 };
 printTodoList(todoData);
+
+// Print Categories
+const printCategories = (arr) => {
+  
+  arr.forEach((element, index) => {
+    // print category tags
+    let printedCategoryList = document.querySelector("#categoryList");
+    const categoryTag = document.createElement("span");
+    categoryTag.classList.add("tag", "is-primary");
+    categoryTag.appendChild(document.createTextNode(element.categoryName));
+
+    printedCategoryList.appendChild(categoryTag)
+    // category tag delete
+    const DeleteCategoryBtn = document.createElement("button")
+    DeleteCategoryBtn.classList.add("delete", "is-small")
+    categoryTag.appendChild(DeleteCategoryBtn)
+
+    //category dropdown
+    const categoryDropdown = document.querySelector("#categoryDropdown")
+    const categoryOption = document.createElement("option")
+    categoryOption.appendChild(document.createTextNode(element.categoryName));
+    categoryDropdown.appendChild(categoryOption)
+
+  
+    
+
+
+    
+  
+} )
+
+
+}
+printCategories(categoryList)
 
 // const addTodo = () => {}
 // const deleteTask = () => { }
