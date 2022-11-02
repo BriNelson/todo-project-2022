@@ -80,6 +80,8 @@ fullTodoList.addEventListener('click', (event) => {
 
 
 // Add todo listener
+
+// add todo
 addTodoButton.addEventListener("click", () => {
     let newTask = {
         taskName: document.querySelector("#userTask").value,
@@ -87,12 +89,28 @@ addTodoButton.addEventListener("click", () => {
         id: todoData.length + 1,
         completed: false,
         dueDate: 'test date'
-    }
-    
+  }
+  
+  // Add Category
+
+  
+  
+  if (categoryList.includes(document.querySelector("#userCategory").value === true) ) { 
+console.log("test")
+  }
+
+
+  let newCategory = {
+    id: categoryList.length + 1,
+    categoryName: document.querySelector("#userCategory").value,
+  }
+
+    categoryList.unshift(newCategory)
     todoData.unshift(newTask);
 
     console.log(newTask);
-    printTodoList(todoData)
+  printTodoList(todoData)
+  printCategories(categoryList)
 })
  
 
@@ -254,7 +272,7 @@ printTodoList(todoData);
 
 // Print Categories
 const printCategories = (arr) => {
-  
+  document.querySelector("#categoryList").innerHTML = "";
   arr.forEach((element, index) => {
     // print category tags
     let printedCategoryList = document.querySelector("#categoryList");
@@ -273,10 +291,6 @@ const printCategories = (arr) => {
     const categoryOption = document.createElement("option")
     categoryOption.appendChild(document.createTextNode(element.categoryName));
     categoryDropdown.appendChild(categoryOption)
-
-  
-    
-
 
     
   
