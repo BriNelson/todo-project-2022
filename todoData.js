@@ -21,7 +21,7 @@
 
 let todoData = [
   {
-    taskName: "test",
+    taskName: "cats",
     completed: false,
     id: 1,
     category: "exercise",
@@ -53,6 +53,10 @@ let categoryList = [
     id: 2,
     categoryName: "work",
   },
+  {
+    id: 3,
+    categoryName: "play",
+  },
 ];
 
 // console.log(todoData);
@@ -64,7 +68,7 @@ let fullTodoList = document.querySelector('#toDoList');
 fullTodoList.addEventListener('click', (event) => {
   if (event.target.matches(".deleteBtn")) {
     
-    console.log(event.target.id)
+    // console.log(event.target.id)
     todoData.splice(event.target.id, 1);
     printTodoList(todoData);
   }
@@ -94,19 +98,20 @@ addTodoButton.addEventListener("click", () => {
   // Add Category
 
   
+  // Adds category if it doesn't already exists 
+  if (categoryList.some(el => el.categoryName === document.querySelector("#userCategory").value) === false) {
   
-  if (categoryList.includes(document.querySelector("#userCategory").value === true) ) { 
-console.log("test")
-  }
-
 
   let newCategory = {
     id: categoryList.length + 1,
     categoryName: document.querySelector("#userCategory").value,
   }
 
-    categoryList.unshift(newCategory)
+  categoryList.unshift(newCategory)
+  
+}
     todoData.unshift(newTask);
+ 
 
     console.log(newTask);
   printTodoList(todoData)
@@ -264,7 +269,7 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
     rightSideDiv.appendChild(deleteButton);
     
     
-    console.log(element.taskName);
+    // console.log(element.taskName);
   });
   countCompleted(arr)
 };
