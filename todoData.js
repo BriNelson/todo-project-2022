@@ -45,18 +45,8 @@ let todoData = [
 ];
 
 let categoryList = [
-  {
-    id: 1,
-    categoryName: "school",
-  },
-  {
-    id: 2,
-    categoryName: "work",
-  },
-  {
-    id: 3,
-    categoryName: "play",
-  },
+ 
+  
 ];
 
 // console.log(todoData);
@@ -64,6 +54,7 @@ let categoryList = [
 //Add todo button
 const addTodoButton = document.querySelector('#addTodoButton')
 let fullTodoList = document.querySelector('#toDoList');
+let printedCategoryList = document.querySelector("#categoryList");
 // Delete listener
 fullTodoList.addEventListener('click', (event) => {
   if (event.target.matches(".deleteBtn")) {
@@ -72,14 +63,20 @@ fullTodoList.addEventListener('click', (event) => {
     todoData.splice(event.target.id, 1);
     printTodoList(todoData);
   }
+
+  
+
 })
-// edit listener
-// fullTodoList.addEventListener('click', (event) => {
-//   if (event.target.matches(".editBtn")) {
-    
-//    console.log( 'works')
-//   }
-// })
+
+printedCategoryList.addEventListener("click", (event) => {
+  if (event.target.matches(".deleteCategory")) {
+    categoryList.splice(event.target.id, 1);
+    printCategories(categoryList)
+    console.log(event.target)
+  }
+
+})
+
 
 
 
@@ -87,6 +84,9 @@ fullTodoList.addEventListener('click', (event) => {
 
 // add todo
 addTodoButton.addEventListener("click", () => {
+
+  // doesn't allow empty task
+  if (document.querySelector("#userTask").value != ''){
     let newTask = {
         taskName: document.querySelector("#userTask").value,
         category: document.querySelector("#userCategory").value,
@@ -107,15 +107,21 @@ addTodoButton.addEventListener("click", () => {
     categoryName: document.querySelector("#userCategory").value,
   }
 
-  categoryList.unshift(newCategory)
+    categoryList.unshift(newCategory)
+    printCategories(categoryList)
   
 }
     todoData.unshift(newTask);
  
 
     console.log(newTask);
-  printTodoList(todoData)
-  printCategories(categoryList)
+    printTodoList(todoData)
+  }
+
+  if (document.querySelector("#userTask").value === '') {
+    alert("Your todo is empty")
+  }
+  
 })
  
 
@@ -225,6 +231,11 @@ const printTodoList = (arr) => {
     rightSideDiv.classList.add("level-right")
     itemDiv.appendChild(rightSideDiv);
 
+// item category
+    const categoryControl = document.createElement("div");
+    categoryControl.classList.add("control")
+    rightSideDiv.appendchild(categoryControl);
+    
 
     //edit field
     const editField = document.createElement("input")
@@ -278,9 +289,10 @@ printTodoList(todoData);
 // Print Categories
 const printCategories = (arr) => {
   document.querySelector("#categoryList").innerHTML = "";
+  document.querySelector("#categoryDropdown").innerHTML = "";
   arr.forEach((element, index) => {
     // print category tags
-    let printedCategoryList = document.querySelector("#categoryList");
+   
     const categoryTag = document.createElement("span");
     categoryTag.classList.add("tag", "is-primary");
     categoryTag.appendChild(document.createTextNode(element.categoryName));
@@ -288,7 +300,8 @@ const printCategories = (arr) => {
     printedCategoryList.appendChild(categoryTag)
     // category tag delete
     const DeleteCategoryBtn = document.createElement("button")
-    DeleteCategoryBtn.classList.add("delete", "is-small")
+    DeleteCategoryBtn.classList.add("delete", "is-small", "deleteCategory")
+    DeleteCategoryBtn.setAttribute('id', index)
     categoryTag.appendChild(DeleteCategoryBtn)
 
     //category dropdown
