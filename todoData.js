@@ -232,9 +232,30 @@ const printTodoList = (arr) => {
     itemDiv.appendChild(rightSideDiv);
 
 // item category
-    // const categoryControl = document.createElement("div");
-    // categoryControl.classList.add("control")
-    // rightSideDiv.appendchild(categoryControl);
+    const categoryControl = document.createElement("div");
+    categoryControl.classList.add("control")
+    rightSideDiv.appendChild(categoryControl);
+
+    const tagsObject = document.createElement("div")
+    tagsObject.classList.add("tags", "has-addons")
+    categoryControl.appendChild(tagsObject);
+
+    const editCategoryButton = document.createElement("button");
+    editCategoryButton.classList.add("tag", "button", "is-dark", "is-normal")
+    editCategoryButton.appendChild(document.createTextNode("edit"))
+    tagsObject.appendChild(editCategoryButton);
+
+    const categoryTitle = document.createElement("span")
+    categoryTitle.classList.add("tag", "is-primary", "is-normal")
+    categoryTitle.appendChild(document.createTextNode(`${element.category}`));
+    tagsObject.appendChild(categoryTitle);
+
+    const deleteCategoryBtn = document.createElement("button")
+    deleteCategoryBtn.classList.add("delete", "is-small")
+    categoryTitle.appendChild(deleteCategoryBtn);
+
+
+
     
 
     //edit todo field 
