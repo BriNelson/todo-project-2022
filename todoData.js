@@ -232,12 +232,12 @@ const printTodoList = (arr) => {
     itemDiv.appendChild(rightSideDiv);
 
 // item category
-    const categoryControl = document.createElement("div");
-    categoryControl.classList.add("control")
-    rightSideDiv.appendchild(categoryControl);
+    // const categoryControl = document.createElement("div");
+    // categoryControl.classList.add("control")
+    // rightSideDiv.appendchild(categoryControl);
     
 
-    //edit field
+    //edit todo field 
     const editField = document.createElement("input")
     editField.classList.add("input", "is-info", "level-item")
     
