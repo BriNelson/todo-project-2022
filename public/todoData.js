@@ -1,33 +1,36 @@
-// name
-//completed
-//id
-//category
-//due Date
+//Oct 7
+
+// This server will return/update/create data at the described endpoints (URLs) for you TODO App.
+
+// Minimum HTTP endpoints
+
+// GET TODOS
+// POST TODO
+// PUT TODO (update)
+// DELETE TODO
+// GET ALL TODOS for a CATEGORY
+// GET CATEGORIES
+//  POST CATEGORIES
+//  PUT CATEGORIES (update) 
+// DELETE CATEGORIES
+// Other Requirements
+
+// Database NOT required
+// Data kept in memory (Static Object)
+// endpoints edit data in memory
+// End Points are documented in APIreadme.md file
+// End Points must return JSON Formatted Data
 
 
-// You will need to design and develop the additional features to your todo app.
-
-// * Users need to be able to view todos by category
-
-// * Users need to be able to add categories
-
-// * Users need to be able to select a category when adding a new todo.
-
-// * Users need to be able to delete categories
-
-// * Users need to be able to edit categories (be sure to update all existing todos with the edited category)
-
-// * The experience around categories must be a good user experience
-
-let todoData = [
-  // {
-  //   taskName: "cats",
-  //   completed: false,
-  //   id: 1,
-  //   category: "exercise",
-  //   dueDate: "dateObj",
-  // },
-];
+// let todoData = [
+//   // {
+//   //   taskName: "cats",
+//   //   completed: false,
+//   //   id: 1,
+//   //   category: "exercise",
+//   //   dueDate: "dateObj",
+//   // },
+// ];
 
 let categoryList = [
  
