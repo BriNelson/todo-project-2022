@@ -36,6 +36,13 @@ let categoryList = [
  
   
 ];
+const getTodos = async () => {
+  let res = await fetch('/todos')
+  let data = await res.json();
+
+  return data
+};
+
 
 // console.log(todoData);
 
@@ -48,8 +55,8 @@ fullTodoList.addEventListener('click', (event) => {
   if (event.target.matches(".deleteBtn")) {
     
     // console.log(event.target.id)
-    todoData.splice(event.target.id, 1);
-    printTodoList(todoData);
+    // todoData.splice(event.target.id, 1);
+    // printTodoList(todoData);
   }
 
   
@@ -86,6 +93,22 @@ addTodoButton.addEventListener("click", () => {
         dueDate: 'test date'
   }
   
+    
+    
+  fetch('/todo', {
+    method: 'POST', // or 'PUT'
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newTask),
+  })
+    .then((response) => response.json())
+    .then((newTask) => {
+      console.log('Success:', newTask);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   // Add Category
 
   
@@ -102,11 +125,11 @@ addTodoButton.addEventListener("click", () => {
     printCategories(categoryList)
   
 }
-    todoData.unshift(newTask);
+    // todoData.unshift(newTask);
  
 
     console.log(newTask);
-    printTodoList(todoData)
+    // printTodoList(todoData)
   }
 
   if (document.querySelector("#userTask").value === '') {
@@ -374,8 +397,15 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
     // console.log(element.taskName); 
   });
   countCompleted(arr)
-};
-printTodoList(todoData);
+};//////////////////////////////////////end of print
+
+
+//////////////prints todo now
+getTodos().then(todoList => {
+  printTodoList(todoList);
+})
+
+// printTodoList(todoData);
 
 ////////////////// Print Category List ////////////////////////////
 const printCategories = (arr) => {
