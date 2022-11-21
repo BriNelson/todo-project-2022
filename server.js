@@ -1,4 +1,5 @@
 import express from 'express'
+
 const app = express()
 const port = 3000
 
@@ -15,21 +16,24 @@ let todoData = [
   ];
 
 
+  // Sends Full todo list // works
 app.get('/todos', (req, res) => {
     res.send(todoData)
 })
+
   
 app.post('/todo', (req, res) => {
-    console.log(req)
-    todoData.push(
-        {
-            taskName: "bats",
-            completed: false,
-            id: 1,
-            category: "exercise",
-            dueDate: "dateObj",  
-        }
-    )
+    console.log(req.body)
+
+    // todoData.push(
+    //     {
+    //         taskName: "bats",
+    //         completed: false,
+    //         id: 1,
+    //         category: "exercise",
+    //         dueDate: "dateObj",  
+    //     }
+    // )
     res.send(todoData)
     
 })
