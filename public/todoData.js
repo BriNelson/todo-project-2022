@@ -1,5 +1,7 @@
 //Oct 7
 
+
+
 // This server will return/update/create data at the described endpoints (URLs) for you TODO App.
 
 // Minimum HTTP endpoints
@@ -88,7 +90,6 @@ addTodoButton.addEventListener("click", () => {
     let newTask = {
         taskName: document.querySelector("#userTask").value,
         category: document.querySelector("#userCategory").value,
-        id: todoData.length + 1,
         completed: false,
         dueDate: 'test date'
   }
@@ -96,19 +97,15 @@ addTodoButton.addEventListener("click", () => {
     
     
   fetch('/todo', {
-    method: 'POST', // or 'PUT'
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newTask),
   })
-    .then((response) => response.json())
-    .then((newTask) => {
-      console.log('Success:', newTask);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      .then(res => res.json())
+    .then(data => console.log(data))
+   
   // Add Category
 
   
@@ -128,7 +125,7 @@ addTodoButton.addEventListener("click", () => {
     // todoData.unshift(newTask);
  
 
-    console.log(newTask);
+    // console.log(newTask);
     // printTodoList(todoData)
   }
 
@@ -158,18 +155,18 @@ document.addEventListener("click", function (event) {
     
   }
 
-  if (event.target.checked === false) {
-    // console.log(event.target.id)
-    todoData.forEach(element => {
-      if (parseInt(event.target.id) === element.id) {
-        element.completed = false;
-        // console.log(element)
+  // if (event.target.checked === false) {
+  //   // console.log(event.target.id)
+  //   todoData.forEach(element => {
+  //     if (parseInt(event.target.id) === element.id) {
+  //       element.completed = false;
+  //       // console.log(element)
         
-      }
+  //     }
       
-    });
-    countCompleted(todoData)
-  }
+  //   });
+  //   countCompleted(todoData)
+  // }
 
   
 })

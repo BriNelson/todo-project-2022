@@ -1,8 +1,9 @@
 import express from 'express'
-
+import bodyParser from 'body-parser'
 const app = express()
 const port = 3000
-
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 let todoData = [
@@ -23,18 +24,19 @@ app.get('/todos', (req, res) => {
 
   
 app.post('/todo', (req, res) => {
-    console.log(req.body)
+     console.log(req.body)
 
-    // todoData.push(
-    //     {
-    //         taskName: "bats",
-    //         completed: false,
-    //         id: 1,
-    //         category: "exercise",
-    //         dueDate: "dateObj",  
-    //     }
-    // )
-    res.send(todoData)
+    todoData.push(
+        {
+            taskName: req.body.taskName,
+            completed: req.body.completed,
+            id: req.body.id,
+            category: req.body.category,
+            dueDate: req.body.dueDate,  
+        }
+    )
+     console.log(todoData)
+     res.send(todoData)
     
 })
 
