@@ -92,10 +92,16 @@ addTodoButton.addEventListener("click", () => {
         category: document.querySelector("#userCategory").value,
         completed: false,
         dueDate: 'test date'
+    }
+    
+    let newCategory = {
+    id: 1,
+    categoryName: document.querySelector("#userCategory").value,
   }
+
   
     
-    
+   // Post for todo 
   fetch('/todo', {
     method: 'POST',
     headers: {
@@ -106,20 +112,41 @@ addTodoButton.addEventListener("click", () => {
       .then(res => res.json())
     .then(data => console.log(data))
    
-  // Add Category
+   
+  
+  // Post for category list
+  fetch('/category', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newCategory),
+  })
+      .then(res => res.json())
+    .then(data => console.log(data))
+   
+   
+  
+  
+      // Add Category
 
   
+    
+    
   // Adds category if it doesn't already exists 
   if (categoryList.some(el => el.categoryName === document.querySelector("#userCategory").value) === false) {
   
 
-  let newCategory = {
-    id: categoryList.length + 1,
-    categoryName: document.querySelector("#userCategory").value,
-  }
+  // let newCategory = {
+  //   id: categoryList.length + 1,
+  //   categoryName: document.querySelector("#userCategory").value,
+  // }
 
-    categoryList.unshift(newCategory)
-    printCategories(categoryList)
+  getTodos().then(todoList => {
+    printTodoList(todoList);
+  })
+    // categoryList.unshift(newCategory)
+    // printCategories(categoryList)
   
 }
     // todoData.unshift(newTask);

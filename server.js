@@ -14,7 +14,11 @@ let todoData = [
       category: "exercise",
       dueDate: "dateObj",
     },
-  ];
+];
+let categoryList = [
+ 
+  
+];
 
 
   // Sends Full todo list // works
@@ -24,7 +28,7 @@ app.get('/todos', (req, res) => {
 
   
 app.post('/todo', (req, res) => {
-     console.log(req.body)
+     
 
     todoData.push(
         {
@@ -41,10 +45,22 @@ app.post('/todo', (req, res) => {
 })
 
 app.delete('/todo', (req, res) => {})
-
-app.get('/categories', (req, res) => { })
+//  category endpoints
+app.get('/categories', (req, res) => {
+    res.send(categoryList)
+ })
 
 app.post('/category', (req, res) => {
+    console.log(req.body)
+    categoryList.push(
+        {
+            categoryName: req.body.categoryName,
+            id: req.body.id,
+            
+        }
+    )
+
+
     
 })
 
