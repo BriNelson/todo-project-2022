@@ -26,7 +26,7 @@ app.get('/todos', (req, res) => {
     res.send(todoData)
 })
 
-  
+// sends new todo  
 app.post('/todo', (req, res) => {
      
 
@@ -44,8 +44,14 @@ app.post('/todo', (req, res) => {
     
 })
 
-app.delete('/todo', (req, res) => {})
+app.delete('/todo/:id', (req, res) => {
+
+
+ })
+
+
 //  category endpoints
+// gets full category listen
 app.get('/categories', (req, res) => {
     res.send(categoryList)
  })
