@@ -1,3 +1,6 @@
+
+
+
 //Oct 7
 
 
@@ -56,9 +59,19 @@ let printedCategoryList = document.querySelector("#categoryList");
 fullTodoList.addEventListener('click', (event) => {
   if (event.target.matches(".deleteBtn")) {
     
-    // console.log(event.target.id)
-    // todoData.splice(event.target.id, 1);
-    // printTodoList(todoData);
+    fetch('/todo' + "/" + event.target.id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      
+    })
+        .then(res => res.json())
+      .then(data => console.log(data))
+    getTodos().then(todoList => {
+      printTodoList(todoList);
+      ;
+    })
   }
 
   
@@ -84,12 +97,17 @@ printedCategoryList.addEventListener("click", (event) => {
 
 // add todo
 addTodoButton.addEventListener("click", () => {
-
+  
   // doesn't allow empty task
-  if (document.querySelector("#userTask").value != ''){
+  if (document.querySelector("#userTask").value != '') {
+    getTodos().then(todoList => {
+     
+      return todoList.length;
+    })
     let newTask = {
         taskName: document.querySelector("#userTask").value,
-        category: document.querySelector("#userCategory").value,
+      category: document.querySelector("#userCategory").value,
+        
         completed: false,
         dueDate: 'test date'
     }
@@ -144,6 +162,7 @@ addTodoButton.addEventListener("click", () => {
 
   getTodos().then(todoList => {
     printTodoList(todoList);
+    ;
   })
     // categoryList.unshift(newCategory)
     // printCategories(categoryList)
@@ -227,6 +246,7 @@ deleteAllButton.addEventListener("click", () => {
 
 //print todo array function
 const printTodoList = (arr) => {
+
   document.querySelector("#completedTaskCount").innerHTML = "";
     document.querySelector("#toDoList").innerHTML = "";
   arr.forEach((element, index) => {
@@ -410,10 +430,10 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
       
     })
 
-    // Delete button added
+    // Delete todo button added
     const deleteButton = document.createElement("button")
     deleteButton.classList.add("button", "is-danger", "level-item", "deleteBtn")
-    deleteButton.setAttribute('id', index)
+    deleteButton.setAttribute('id', element.id)
     deleteButton.appendChild(document.createTextNode('delete'))
     rightSideDiv.appendChild(deleteButton);
     
