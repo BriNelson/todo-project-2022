@@ -27,7 +27,7 @@ let categoryList = [
 
   // Sends Full todo list // works
 app.get('/todos', (req, res) => {
-    console.log(req)
+    
     res.send(todoData)
     
 })
@@ -50,6 +50,30 @@ app.post('/todo', (req, res) => {
     
 })
 
+// edits todo
+
+app.patch('/todo/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+    const index = todoData.findIndex((el) => el.id === id)
+    todoData[index] = {
+        taskName: req.body.taskName,
+        completed: req.body.completed,
+        id: req.body.id,
+        category: req.body.category,
+        dueDate: req.body.dueDate,
+        
+    }
+    // console.log(id)
+    // console.log(changes)
+    // console.log(todoData)
+
+
+
+})
+
+
+// delete todo
 app.delete('/todo/:id', (req, res) => {
 
     
@@ -60,7 +84,7 @@ app.delete('/todo/:id', (req, res) => {
         return ids.id == id;
     }
     
-    console.log(todoData.findIndex(checkId))
+    // console.log(todoData.findIndex(checkId))
     todoData.splice(todoData.findIndex(checkId), 1)
     res.sendStatus(200);
 
@@ -73,22 +97,38 @@ app.get('/categories', (req, res) => {
     res.send(categoryList)
  })
 
+ // post category
 app.post('/category', (req, res) => {
-    console.log(req.body)
+    if (categoryList.some(el => el.categoryName === req.body.categoryName) === false) {
+  
+   
     categoryList.push(
         {
             categoryName: req.body.categoryName,
             id: uuidv4(),
             
         }
-    )
+        )
+    }
     res.sendStatus(200);
 
-
+console.log(categoryList)
     
 })
 
-app.delete('/category', (req, res) => {})
+app.delete('/category:id', (req, res) => {
+    const { id } = req.params
+    
+    // console.log(id)
+    function checkId(ids) {
+        return ids.id == id;
+    }
+    
+    // console.log(categoryList.findIndex(checkId))
+    categoryList.splice(categoryList.findIndex(checkId), 1)
+    res.sendStatus(200);
+
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
