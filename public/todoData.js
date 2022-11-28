@@ -29,10 +29,7 @@
 
 
 
-let categoryList = [
- 
-  
-];
+
 const getCategories = async () => {
   let res = await fetch('/categories')
   let data = await res.json();
@@ -84,7 +81,7 @@ fullTodoList.addEventListener('click', (event) => {
 // Delete category listener
 
 printedCategoryList.addEventListener("click", (event) => {
-  if (event.target.matches(".deleteCategory")) {
+  if (event.target.matches(".deleteCategoryList")) {
     // categoryList.splice(event.target.id, 1);
     
     // printCategories(categoryList)
@@ -97,10 +94,11 @@ printedCategoryList.addEventListener("click", (event) => {
     })
         .then(res => res.json())
       .then(data => console.log(data))
-    getTodos().then(todoList => {
-      printTodoList(todoList);
-      ;
-    })
+    
+    
+      getCategories().then(categories => {
+        printCategories(categories);
+      })
     
   }
   
@@ -129,10 +127,7 @@ addTodoButton.addEventListener("click", () => {
         dueDate: 'test date'
     }
     
-    let newCategory = {
-    id: 1,
-    categoryName: document.querySelector("#userCategory").value,
-  }
+
 
   
     
@@ -150,15 +145,15 @@ addTodoButton.addEventListener("click", () => {
        
     
   // Post for category list
-  fetch('/category', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newCategory),
-  })
-      .then(res => res.json())
-    .then(data => console.log(data))
+  // fetch('/category', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(newCategory),
+  // })
+  //     .then(res => res.json())
+  //   .then(data => console.log(data))
    
    
   
@@ -169,9 +164,9 @@ addTodoButton.addEventListener("click", () => {
     
     
   // Adds category if it doesn't already exists 
-  if (categoryList.some(el => el.categoryName === document.querySelector("#userCategory").value) === false) {
+  // if (categoryList.some(el => el.categoryName === document.querySelector("#userCategory").value) === false) {
   
-  }
+  // }
   // let newCategory = {
   //   id: categoryList.length + 1,
   //   categoryName: document.querySelector("#userCategory").value,
@@ -229,6 +224,7 @@ document.addEventListener("click", function (event) {
       .then(data => console.log(data))
     getTodos().then(todoList => {
       countCompleted(todoList)
+      
     });
   }
 })
@@ -246,25 +242,39 @@ const countCompleted = (arr) => {
   
   }
 
- // delete completed
+ // delete completed !!!!Problem - takes two clicks
 const deleteAllButton = document.querySelector("#deleteAllButton");
 deleteAllButton.addEventListener("click", () => {
-  todoData.forEach((element, index, array) => {
-    if (element.completed === true) {
-      
-      array.splice(index, 1);
-      
-      printTodoList(todoData)
-    };
+  getTodos().then((todoList) => {
+    todoList.forEach((element, index, array) => {
+      if (element.completed === true) {
+        fetch("/todo" + "/" + element.id, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      }
+    });
   });
-})
+
+  getTodos().then((todoList) => {
+    printTodoList(todoList);
+  });
+});
 
 //print todo array function
-const printTodoList = (arr) => {
+const printTodoList = (arr, categoryModifier) => {
 
   document.querySelector("#completedTaskCount").innerHTML = "";
     document.querySelector("#toDoList").innerHTML = "";
   arr.forEach((element, index) => {
+    if (element.category === categoryModifier || categoryModifier === undefined || categoryModifier === "") {
+      console.log(element.category)
+    
+
     let todoList = document.querySelector("#toDoList");
 
     const listItem = document.createElement("li");
@@ -281,7 +291,7 @@ const printTodoList = (arr) => {
 
     // completed checkmark
     const checkMarkLabel = document.createElement("label")
-    checkMarkLabel.classList.add("checkbox","level-item")
+    checkMarkLabel.classList.add("checkbox", "level-item")
     leftSideDiv.appendChild(checkMarkLabel);
 
     const checkMarkInput = document.createElement("input")
@@ -304,29 +314,29 @@ const printTodoList = (arr) => {
     rightSideDiv.classList.add("level-right")
     itemDiv.appendChild(rightSideDiv);
 
-//////////////////////////////// Category section of todo list //////////////////////////////////////////////
+    //////////////////////////////// Category section of todo list //////////////////////////////////////////////
 
     
   
    
     
     
-// item category
+    // item category
     const categoryControl = document.createElement("div");
     categoryControl.classList.add("control")
-      rightSideDiv.appendChild(categoryControl);
-      if (element.category === ""){ categoryControl.remove()} // messy but keeps tag from repopulated on re-draw
-// Bulma css tag 
+    rightSideDiv.appendChild(categoryControl);
+    if (element.category === "") { categoryControl.remove() } // messy but keeps tag from repopulated on re-draw
+    // Bulma css tag 
     const tagsObject = document.createElement("div")
     tagsObject.classList.add("tags", "has-addons", "mr-6")
     categoryControl.appendChild(tagsObject);
-// edit category on todo list
+    // edit category on todo list
     const editCategoryButton = document.createElement("button");
     editCategoryButton.classList.add("tag", "button", "is-dark", "is-normal")
     editCategoryButton.setAttribute('id', index)
     editCategoryButton.appendChild(document.createTextNode("edit"))
     tagsObject.appendChild(editCategoryButton);
-// save category on todo list
+    // save category on todo list
     const saveCategoryButton = document.createElement("button");
     saveCategoryButton.classList.add("tag", "button", "is-dark", "is-normal")
     saveCategoryButton.setAttribute('id', index)
@@ -334,7 +344,7 @@ const printTodoList = (arr) => {
 
     
     
-// title for category on todo list
+    // title for category on todo list
     const categoryTitle = document.createElement("span")
     categoryTitle.classList.add("tag", "is-primary", "is-normal")
     tagsObject.appendChild(categoryTitle);
@@ -352,34 +362,47 @@ const printTodoList = (arr) => {
     const deleteCategoryBtn = document.createElement("button")
     deleteCategoryBtn.classList.add("delete", "is-small", "deleteCategory")
     deleteCategoryBtn.setAttribute('id', index)
-      categoryTitle.appendChild(deleteCategoryBtn);
+    categoryTitle.appendChild(deleteCategoryBtn);
       
     
     deleteCategoryBtn.addEventListener("click", (event) => {
       
 
-      todoData[index] = {
-        taskName: element.taskName,
-        completed: element.completed,
-        id: element.id,
-        category: "",
-        dueDate: element.dueDate
-       
-      }
-      printTodoList(todoData)
+      fetch('/category' + "/" + element.id, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          taskName: element.taskName,
+          completed: element.completed,
+          id: element.id,
+          category: "",
+          dueDate: element.dueDate,
+
+  
+        })
+          
+      })
+        .then(res => res.json())
+        .then(data => console.log(data))
+      
+      getTodos().then(todoList => {
+        printTodoList(todoList);
+      })
       
     })
 
-     // ─── Edit Category Listener On The Todo List Button ──────────
+    // ─── Edit Category Listener On The Todo List Button ──────────
 
      
     editCategoryButton.addEventListener('click', (event) => {
       editCategoryButton.replaceWith(saveCategoryButton)
-                  categoryTitleSpan.replaceWith(editCategoryField)
+      categoryTitleSpan.replaceWith(editCategoryField)
        
-     })
+    })
 
-   // ─── Save Category Listener ──────────────────────────────────────────
+    // ─── Save Category Listener ──────────────────────────────────────────
 
    
     saveCategoryButton.addEventListener("click", (event) => {
@@ -387,25 +410,40 @@ const printTodoList = (arr) => {
       // console.log(editField.value)
 
       element.category = editCategoryField.value
-      saveCategoryButton.replaceWith(editCategoryButton)
+
+      fetch('/category' + "/" + element.id, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          taskName: element.taskName,
+          completed: element.completed,
+          id: element.id,
+          category: editCategoryField.value,
+          dueDate: element.dueDate,
+
+
+
+        })
+        
+      })
+        .then(res => res.json())
+        .then(data => console.log(data))
+      getTodos().then(todoList => {
+        printTodoList(todoList);
+
+
+        saveCategoryButton.replaceWith(editCategoryButton)
        
 
 
 
-      // const index = categoryList.findIndex((el) => el.id === element.id)
-      
-
-      // categoryList[index] = {
-      //   id: element.id,
-      //   categoryName: editCategoryField.value
-
-      // }
+    
       
       
-      printCategories(categoryList)
-      // editField.replaceWith(itemName)
-      printTodoList(todoData)
       
+      })
     })
 
 
@@ -418,16 +456,16 @@ const printTodoList = (arr) => {
     editField.classList.add("input", "is-info", "level-item")
     
     
-// Save button added
-const saveButton = document.createElement("button")
-saveButton.classList.add("button", "is-success", "level-item", "editBtn")
-    saveButton.appendChild(document.createTextNode('save')) 
+    // Save button added
+    const saveButton = document.createElement("button")
+    saveButton.classList.add("button", "is-success", "level-item", "editBtn")
+    saveButton.appendChild(document.createTextNode('save'))
     
     // Save button event for todo list - swaps save with edit button - edit todo listener
     saveButton.addEventListener("click", (event) => {
     
       // element.taskName = editField.value
-//Edit todo patch function
+      //Edit todo patch function
       fetch('/todo' + "/" + element.id, {
         method: 'PATCH',
         headers: {
@@ -464,8 +502,8 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
     
     // Edit button event - saves edited item
     editButton.addEventListener('click', (event) => {
-     editButton.replaceWith(saveButton)
-        itemName.replaceWith(editField)
+      editButton.replaceWith(saveButton)
+      itemName.replaceWith(editField)
       
     })
 
@@ -476,10 +514,11 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
     deleteButton.appendChild(document.createTextNode('delete'))
     rightSideDiv.appendChild(deleteButton);
     
-    
+  }
     // console.log(element.taskName); 
   });
   countCompleted(arr)
+  
 }//////////////////////////////////////end of print
 
 
@@ -497,15 +536,23 @@ const printCategories = (arr) => {
   arr.forEach((element, index) => {
     // print category tags
    
-    const categoryTag = document.createElement("span");
-    categoryTag.classList.add("tag", "is-primary");
+    const categoryTag = document.createElement("button");
+    categoryTag.classList.add("tag", "button", "is-primary");
     categoryTag.appendChild(document.createTextNode(element.categoryName));
+
+    // sort by category function
+    categoryTag.addEventListener("click", (event) => {
+      
+      getTodos().then(todoList => {
+        printTodoList(todoList, element.categoryName);
+      })
+    })
 
     printedCategoryList.appendChild(categoryTag)
     // category tag delete
     const DeleteCategoryBtn = document.createElement("button")
-    DeleteCategoryBtn.classList.add("delete", "is-small", "deleteCategory")
-    DeleteCategoryBtn.setAttribute('id', index)
+    DeleteCategoryBtn.classList.add("delete", "is-small", "deleteCategoryList")
+    DeleteCategoryBtn.setAttribute('id', element.id)
     categoryTag.appendChild(DeleteCategoryBtn)
 
     //category dropdown

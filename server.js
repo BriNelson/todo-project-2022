@@ -29,7 +29,6 @@ let categoryList = [
 app.get('/todos', (req, res) => {
     
     res.send(todoData)
-    
 })
 
 // sends new todo  
@@ -43,6 +42,14 @@ app.post('/todo', (req, res) => {
             id: uuidv4(),
             category: req.body.category,
             dueDate: req.body.dueDate,  
+        }
+    )
+
+    
+    categoryList.push(
+        {
+            categoryName: req.body.category,
+            id: uuidv4(),
         }
     )
      console.log(todoData)
@@ -64,14 +71,9 @@ app.patch('/todo/:id', (req, res) => {
         dueDate: req.body.dueDate,
         
     }
-    // console.log(id)
-    // console.log(changes)
-    // console.log(todoData)
-
-
-
 })
 
+// completed edit
 app.patch('/completed/:id', (req, res) => {
     const { id } = req.params;
     const changes = req.body;
@@ -139,10 +141,26 @@ console.log(categoryList)
     
 })
 
-app.delete('/category:id', (req, res) => {
+app.patch('/category/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+    const index = todoData.findIndex((el) => el.id === id)
+    todoData[index] = {
+        taskName: req.body.taskName,
+        completed: req.body.completed,
+        id: req.body.id,
+        category: req.body.category,
+        dueDate: req.body.dueDate,
+        
+    }
+})
+
+app.delete('/category/:id', (req, res) => {
+   
+    console.log("test")
     const { id } = req.params
     
-    // console.log(id)
+    
     function checkId(ids) {
         return ids.id == id;
     }
