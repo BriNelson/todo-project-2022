@@ -198,39 +198,39 @@ addTodoButton.addEventListener("click", () => {
 })
  
 
- //handles complete (uglyish)
+ //handles completed (uglyish)
 document.addEventListener("click", function (event) {
    
 
-  // **** might beable to do this with operands
-  if (event.target.checked === true) {
-    // console.log(event.target.id)
-    todoData.forEach(element => {
-      if (parseInt(event.target.id) === element.id) {
-        element.completed = true;
-        // console.log(element)
-        
-      }
-      
-    });
-    countCompleted(todoData)
+  if (event.target.classList.contains('checkbox')) { 
     
-  }
-
-  // if (event.target.checked === false) {
-  //   // console.log(event.target.id)
-  //   todoData.forEach(element => {
-  //     if (parseInt(event.target.id) === element.id) {
-  //       element.completed = false;
-  //       // console.log(element)
-        
-  //     }
-      
-  //   });
-  //   countCompleted(todoData)
-  // }
-
   
+ 
+
+    
+      
+
+    fetch('/completed' + "/" + event.target.id, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        
+        completed: event.target.checked,
+      
+
+
+
+      })
+        
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+    // getTodos().then(todoList => {
+    //   printTodoList(todoList)
+    // });
+  }
 })
  
  // count function
@@ -286,6 +286,7 @@ const printTodoList = (arr) => {
     leftSideDiv.appendChild(checkMarkLabel);
 
     const checkMarkInput = document.createElement("input")
+    checkMarkInput.classList.add("checkbox")
     checkMarkInput.type = "checkbox"
     if (element.completed === true) {
       checkMarkInput.setAttribute("checked", "")
@@ -427,7 +428,7 @@ saveButton.classList.add("button", "is-success", "level-item", "editBtn")
     saveButton.addEventListener("click", (event) => {
     
       // element.taskName = editField.value
-
+//Edit todo patch function
       fetch('/todo' + "/" + element.id, {
         method: 'PATCH',
         headers: {

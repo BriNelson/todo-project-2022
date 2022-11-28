@@ -72,6 +72,29 @@ app.patch('/todo/:id', (req, res) => {
 
 })
 
+app.patch('/completed/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+    const index = todoData.findIndex((el) => el.id === id)
+
+    
+    todoData[index] = {
+        taskName: todoData[index].taskName,
+        completed: req.body.completed,
+        id: todoData[index].id,
+        category: todoData[index].category,
+        dueDate: todoData[index].dueDate,
+        
+    }
+    // console.log(id)
+    // console.log(changes)
+    // console.log(todoData)
+
+console.log(todoData)
+res.sendStatus(200);
+
+})
+
 
 // delete todo
 app.delete('/todo/:id', (req, res) => {
