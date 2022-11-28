@@ -227,9 +227,9 @@ document.addEventListener("click", function (event) {
     })
       .then(res => res.json())
       .then(data => console.log(data))
-    // getTodos().then(todoList => {
-    //   printTodoList(todoList)
-    // });
+    getTodos().then(todoList => {
+      countCompleted(todoList)
+    });
   }
 })
  
@@ -256,7 +256,6 @@ deleteAllButton.addEventListener("click", () => {
       
       printTodoList(todoData)
     };
-    
   });
 })
 
